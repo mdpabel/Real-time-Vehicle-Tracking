@@ -1,7 +1,15 @@
+const { GeoReplyWith } = require('redis');
 const redisClient = require('./src/db/redis');
 
 function socketServer(io) {
   return io.on('connection', (socket) => {
+    //
+    console.log('socket connected');
+
+    /**
+     * User Location
+     */
+
     socket.on('userlocation', async (data) => {
       const user = JSON.parse(data);
 
@@ -11,35 +19,32 @@ function socketServer(io) {
           latitude: user?.latitude,
           member: user?.member,
         });
-
-        console.log(a);
       }
     });
 
-    socket.on('gpsdata', async (data) => {
-      const gpsData = JSON.parse(data);
+    /**
+     * Car Location
+     */
 
-      await redisClient.geoAdd('cars', {
-        longitude: gpsData.lng,
-        latitude: gpsData.lat,
-        member: gpsData.busId,
+    socket.on('gpsdata', async (data) => {
+      // const gpsData = JSON.parse(data);
+
+      if (typeof data === 'string') {
+        data = JSON.parse(data);
+      }
+
+      await redisClient.geoAdd('coords', {
+        longitude: data.lng,
+        latitude: data.lat,
+        member: data.busId,
       });
 
-      const availableCars = await redisClient.zRange('cars', 0, -1);
-
-      let buses = [];
-
-      for (let i = 0; i < availableCars.length; i++) {
-        const key = {};
-        const res = await redisClient.geoPos('cars', name);
-        var keys = ['mine', 'yours'];
-        redisClient.zunionstore(
-          ['result', keys.length].concat(keys),
-          function (err, res) {
-            //
-          }
-        );
-      }
+      const res = await redisClient.geoSearchWith(
+        'coords',
+        { latitude: 23.44973834391706902, longitude: 91.17642492055892944 },
+        { radius: 53, unit: 'km' },
+        [GeoReplyWith.COORDINATES]
+      );
 
       socket.broadcast.emit('carLocation', res);
     });

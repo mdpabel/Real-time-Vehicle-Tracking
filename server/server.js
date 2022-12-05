@@ -1,10 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const socketIO = require('socket.io');
 const morgan = require('morgan');
 var cors = require('cors');
 const http = require('http');
-require('dotenv').config();
 
 // const busLocation = require('./src/routers/busLocation');
 const location = require('./src/routers/location');
