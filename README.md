@@ -5,7 +5,8 @@ Real-time Vehicle Tracking is a fullstack application that enables users to trac
 ## Architecture Screenshots
 
 Here are some architecture screenshots to help you visualize how the Real-time Vehicle Tracking system is structured:
-   ![Client-Server Architecture](screenshots/client_server_architecture.png)
+   ![Client-Server Architecture](Picture1.png)
+   ![Client-Server Architecture](Picture3.png)
 
 ## Table of Contents
 
