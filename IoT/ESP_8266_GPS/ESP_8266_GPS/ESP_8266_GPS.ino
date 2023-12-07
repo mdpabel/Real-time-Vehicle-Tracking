@@ -1,5 +1,4 @@
 /*
-www.fiverr.com/a3ruz_
 ****************************
 Libraries you nedd to install '
 https://github.com/mikalhart/TinyGPSPlus
